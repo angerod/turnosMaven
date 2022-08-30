@@ -1,0 +1,9 @@
+com\angel\turnosmaven\ejb\ClienteBean.class
+com\angel\turnosmaven\ejb\modelo\Servicio_.class
+com\angel\turnosmaven\ejb\modelo\Cliente.class
+com\angel\turnosmaven\ejb\modelo\Servicio.class
+com\angel\turnosmaven\ejb\modelo\Turno_.class
+com\angel\turnosmaven\ejb\modelo\Turno.class
+com\angel\turnosmaven\ejb\TurnoBean.class
+com\angel\turnosmaven\ejb\modelo\Cliente_.class
+com\angel\turnosmaven\ejb\ServicioBean.class

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Asignar Turno</title>
+    </h:head>
+    <h:body>
+
+        <p:breadCrumb>
+            <p:menuitem value="Index" url="http://localhost:8080/front/index.xhtml" />
+            <p:menuitem value="Asignar Turno" url="http://localhost:8080/front/vista/asignarturno.xhtml" />
+            <p:menuitem value="Observacion" url="http://localhost:8080/front/vista/observacion.xhtml" />
+            <p:menuitem value="Registrar Cliente" url="http://localhost:8080/front/vista/registrar.xhtml" />            
+        </p:breadCrumb>
+
+        <h:form>
+
+            <div style="padding: 15px; width: 100%;">
+                <p:panelGrid columns="2" >
+                    <p:outputLabel value="Buscar Cliente Registrado" for="buscarcli" style="padding: 15px" />
+                    <p:inputText id="buscarcli" value="#{ClienteAsignarTurno.clienteBuscar}" title="buscarcli" />
+                    <p:outputLabel value=""  style="padding: 15px" />
+                    <p:commandButton  id="buscarInden" value="Buscar"  icon="ui-icon-pencil" actionListener="#{ClienteAsignarTurno.filtrarTablaxCliente}" ajax="false">
+                    </p:commandButton>
+                </p:panelGrid>
+
+            </div>
+
+
+
+            <p:panel id="panel1"  header="Clientes Registrados">
+                
+                <p:toolbar>
+            <p:toolbarGroup>
+                
+            </p:toolbarGroup>
+            <p:toolbarGroup align="right">
+                <p:commandButton value="Recargar" icon="pi pi-upload" styleClass="ui-button-help" ajax="false" actionListener="#{ClienteAsignarTurno.recargarTabla}">
+                    
+                </p:commandButton>
+                
+                <p:commandButton value="Exportar a PDF" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                    <p:dataExporter type="pdf" target="datalist" fileName="cientes-turnos" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+                
+                <p:dataTable id="datalist" value="#{ClienteAsignarTurno.items}" var="item"
+
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             emptyMessage="No hay Clientes Registrados"
+                             >
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombres} #{item.apellidos}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Edad/Identifica"/>
+                        </f:facet>
+                        <h:outputText value="#{item.edad}"/>
+                        <br />
+                        <h:outputText value="#{item.tipoIdentificacion} #{item.numeroIdentificacion}"/>
+                    </p:column>                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Departamento/Ciudad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.departamento}"/>
+                        <br />
+                        <h:outputText value="#{item.ciudad}"/>
+                        <br />
+                        <h:outputText value="#{item.barrio}"/> - <h:outputText value="#{item.direccion}"/>
+                    </p:column>
+                    
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Servicio"/>
+                        </f:facet>
+                        <p:selectOneMenu rendered="#{item.turno_asignado eq 'N'}" id="servicioINt" value="#{ClienteAsignarTurno.idServicioSeleccionado}">
+                            <f:selectItems value="#{ClienteAsignarTurno.listaServiciosDTOs}" var="dtoServicio" itemLabel="#{dtoServicio.label}" itemValue="#{dtoServicio.idPK}" />
+                        </p:selectOneMenu>
+                        
+                        <p:dataTable rendered="#{item.turno_asignado eq 'S'}" id="datalistturno" value="#{item.turnoList}" var="turno"
+                             rowKey="#{turno.idturnos}">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Turno"/>
+                                    </f:facet>
+                                    <h:outputText value="#{turno.idservicio.codigo}-#{turno.idturnos}"/>
+                                </p:column>
+                            <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Fecha"/>
+                                    </f:facet>
+                                    <h:outputText value="#{turno.fechaRegistro}"/>
+                                </p:column>
+                            <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Servicio"/>
+                                    </f:facet>
+                                    <h:outputText value="#{turno.idservicio.nombre}"/>
+                                </p:column>
+                        </p:dataTable>
+                    </p:column> 
+                    
+                    <p:column>
+
+
+                        <p:commandButton  id="editT" value="Asignar"  icon="ui-icon-pencil" actionListener="#{ClienteAsignarTurno.agregarTurno(item)}"
+                                          ajax="false" update="panel1 datalist datalistturno" >
+                        </p:commandButton>
+
+                    </p:column>
+                </p:dataTable>
+
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

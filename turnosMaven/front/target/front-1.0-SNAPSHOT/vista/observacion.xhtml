@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <p:breadCrumb>
+            <p:menuitem value="Index" url="http://localhost:8080/front/index.xhtml" />
+            <p:menuitem value="Asignar Turno" url="http://localhost:8080/front/vista/asignarturno.xhtml" />
+            <p:menuitem value="Observacion" url="http://localhost:8080/front/vista/observacion.xhtml" />
+            <p:menuitem value="Registrar Cliente" url="http://localhost:8080/front/vista/registrar.xhtml" />            
+        </p:breadCrumb>
+        <h:form>
+
+            <div style="padding: 15px; width: 100%;">
+                <f:facet name="header">
+                    <h:outputText value="Servicio"/>
+                </f:facet>
+                <p:selectOneMenu  id="serviciolist" value="#{TurnoObservacion.idServicioSeleccionado}">
+                    <f:selectItems value="#{TurnoObservacion.listaServiciosDTOs}" var="dtoServicio" itemLabel="#{dtoServicio.label}" itemValue="#{dtoServicio.idPK}" />
+                </p:selectOneMenu>
+            </div>
+
+            <p:panel  header="Turnos ">
+                
+                
+                <p:dataTable id="datalist" value="#{TurnoObservacion.items}" var="item"
+
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             emptyMessage="No hay Turnos Registrados"
+                             >
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombres} #{item.apellidos}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Edad/Identifica"/>
+                        </f:facet>
+                        <h:outputText value="#{item.edad}"/>
+                        <br />
+                        <h:outputText value="#{item.tipoIdentificacion} #{item.numeroIdentificacion}"/>
+                    </p:column>                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Departamento/Ciudad"/>
+                        </f:facet>
+                        <h:outputText value="#{item.departamento}"/>
+                        <br />
+                        <h:outputText value="#{item.ciudad}"/>
+                        <br />
+                        <h:outputText value="#{item.barrio}"/> - <h:outputText value="#{item.direccion}"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <p:commandButton  id="editT" value="Observacion"  icon="ui-icon-pencil" actionListener="#{TurnoObservacion.agregarObservacion(item)}"
+                                          ajax="false">
+                        </p:commandButton>
+                    </p:column>
+
+                    
+                </p:dataTable>
+
+            </p:panel>
+
+            
+        </h:form>
+    </h:body>
+</html>
